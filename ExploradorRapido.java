@@ -5,6 +5,9 @@
 public class ExploradorRapido extends Explorador implements Runnable {
     
     // * Construtor do explorador rápido.
+    public ExploradorRapido(String nome, String tipo, int prioridade, String tarefa) {
+        super(nome, tipo, prioridade, tarefa);
+    }
     
     /**
      * Implementação específica da execução de tarefa para exploradores rápidos.
@@ -13,7 +16,14 @@ public class ExploradorRapido extends Explorador implements Runnable {
      */
     @Override
     public void executarTarefa() throws TarefaInvalidaException {
-        
+        // Verifica se a tarefa é válida
+        if (tarefa == null || tarefa.trim().isEmpty()) {
+            throw new TarefaInvalidaException("Erro: Tarefa inválida para " + nome);
+        }
+
+        // Imprime informações sobre a execução da tarefa
+        System.out.println("Status: " + nome + " está " + tarefa + " rapidamente.");
+        System.out.println("Status: " + nome + " concluiu a tarefa com sucesso.");
     }
     
     /**
@@ -22,6 +32,11 @@ public class ExploradorRapido extends Explorador implements Runnable {
      */
     @Override
     public void run() {
+        try {
+            executarTarefa(); // Chama o método de execução da tarefa
+        } catch (TarefaInvalidaException e) {
+            System.err.println(e.getMessage()); // Imprime a mensagem de erro se a tarefa for inválida
+        }
     }
 }
 
